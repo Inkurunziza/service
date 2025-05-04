@@ -32,7 +32,7 @@ import {
 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { sendEmail } from "@/app/actions/send-email"
-import InkurunzizaLogo from "./inkurunziza-logo"
+import Image from "next/image"
 
 const AnimatedTitle = () => {
   const inkurunziza = "Inkurunziza"
@@ -331,8 +331,14 @@ export default function InkurunzizaServices() {
       >
         <div className="container mx-auto flex flex-col md:flex-row items-center justify-between py-2 px-4">
           <div className="flex items-center gap-3">
-            <div className="w-16 h-16 md:w-20 md:h-20">
-              <InkurunzizaLogo width="100%" height="100%" />
+            <div className="w-16 h-16 md:w-20 md:h-20 relative">
+              <Image
+                src="/logo-inkurunziza.png"
+                alt="Inkurunziza Services Logo"
+                fill
+                className="object-contain"
+                priority
+              />
             </div>
             <div>
               <link
@@ -676,8 +682,8 @@ export default function InkurunzizaServices() {
 
       <footer className="mt-16 text-center text-gray-500 p-4">
         <div className="flex justify-center mb-2">
-          <div className="w-10 h-10">
-            <InkurunzizaLogo width={40} height={40} />
+          <div className="w-10 h-10 relative">
+            <Image src="/logo-inkurunziza.png" alt="Inkurunziza Services Logo" fill className="object-contain" />
           </div>
         </div>
         <p className="text-xs">&copy; {new Date().getFullYear()} Inkurunziza Services. Tous droits réservés.</p>
