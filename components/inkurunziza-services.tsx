@@ -33,6 +33,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion"
 import { sendEmail } from "@/app/actions/send-email"
 import Image from "next/image"
+import BackgroundPattern from "./background-pattern"
 
 const AnimatedTitle = () => {
   const inkurunziza = "Inkurunziza"
@@ -316,14 +317,8 @@ export default function InkurunzizaServices() {
   }
 
   return (
-    <div
-      className="min-h-screen bg-gray-50 text-gray-800"
-      style={{
-        backgroundImage: "url(/placeholder.svg?height=1080&width=1920)",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-amber-50 text-gray-800 relative">
+      <BackgroundPattern />
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 transform ${
           hidden ? "-translate-y-full" : "translate-y-0"
@@ -331,7 +326,7 @@ export default function InkurunzizaServices() {
       >
         <div className="container mx-auto flex flex-col md:flex-row items-center justify-between py-2 px-4">
           <div className="flex items-center gap-3">
-            <div className="w-16 h-16 md:w-20 md:h-20 relative">
+            <div className="w-16 h-16 md:w-20 md:h-20 relative rounded-full overflow-hidden border-2 border-amber-500">
               <Image
                 src="/logo-inkurunziza.png"
                 alt="Inkurunziza Services Logo"
@@ -431,17 +426,7 @@ export default function InkurunzizaServices() {
         </section>
 
         {/* Services Section - Reduced size */}
-        <section
-          id="services"
-          className="mt-12 text-center p-4 rounded-xl shadow-sm"
-          style={{
-            backgroundImage: "url(/placeholder.svg?height=800&width=1600)",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundBlendMode: "overlay",
-            backgroundColor: "rgba(255,255,255,0.85)",
-          }}
-        >
+        <section id="services" className="mt-12 text-center p-4 rounded-xl shadow-sm bg-white/80 backdrop-blur-sm">
           <h2 className="text-xl md:text-2xl font-bold text-blue-700 mb-4">Labo administratif</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
             {services.map((service, index) => (
@@ -490,17 +475,7 @@ export default function InkurunzizaServices() {
         </section>
 
         {/* Travel Lab Section - New section */}
-        <section
-          id="travel"
-          className="mt-12 text-center p-4 rounded-xl shadow-sm"
-          style={{
-            backgroundImage: "url(/placeholder.svg?height=800&width=1600)",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundBlendMode: "overlay",
-            backgroundColor: "rgba(240,249,255,0.9)", // Bleu très clair pour différencier de la section services
-          }}
-        >
+        <section id="travel" className="mt-12 text-center p-4 rounded-xl shadow-sm bg-blue-50/80 backdrop-blur-sm">
           <h2 className="text-xl md:text-2xl font-bold text-blue-700 mb-4">Labo voyage</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
             {travelServices.map((service, index) => (
@@ -682,7 +657,7 @@ export default function InkurunzizaServices() {
 
       <footer className="mt-16 text-center text-gray-500 p-4">
         <div className="flex justify-center mb-2">
-          <div className="w-10 h-10 relative">
+          <div className="w-10 h-10 relative rounded-full overflow-hidden border-2 border-amber-500">
             <Image src="/logo-inkurunziza.png" alt="Inkurunziza Services Logo" fill className="object-contain" />
           </div>
         </div>
