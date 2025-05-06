@@ -11,8 +11,8 @@ export default function LanguageSelector() {
   const [open, setOpen] = useState(false)
 
   const languages: { code: Language; name: string; flag: string }[] = [
-    { code: "fr", name: t("french"), flag: "🇫🇷" },
-    { code: "en", name: t("english"), flag: "🇬🇧" },
+    { code: "fr", name: t("french") + " (Canada)", flag: "🇨🇦" },
+    { code: "en", name: t("english") + " (Canada)", flag: "🇨🇦" },
     { code: "sw", name: t("swahili"), flag: "🇹🇿" },
     { code: "rn", name: t("kirundi"), flag: "🇧🇮" },
   ]
@@ -26,7 +26,7 @@ export default function LanguageSelector() {
           <ChevronDown className="h-3 w-3 opacity-50" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-40">
+      <DropdownMenuContent align="end" className="w-48">
         {languages.map((lang) => (
           <DropdownMenuItem
             key={lang.code}

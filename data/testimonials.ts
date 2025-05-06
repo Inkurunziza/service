@@ -21,7 +21,7 @@ export const testimonials: Testimonial[] = [
     },
     message: {
       fr: "Grâce à Inkurunziza Services, je gagne plusieurs heures par semaine. Un service rapide, humain et très professionnel.",
-      en: "Thanks to Inkurunziza Services, I save several hours per week. A fast, human and very professional service.",
+      en: "Thanks to Inkurunziza Services, I save several hours each week. A quick, personable and highly professional service.",
       sw: "Shukrani kwa Huduma za Inkurunziza, ninaokoa saa kadhaa kwa wiki. Huduma ya haraka, ya kibinadamu na ya kitaaluma sana.",
       rn: "Kubera Inkurunziza Services, ndakiza amasaha menshi ku ndwi. Igikorwa cihuta, c'ubumuntu kandi c'umwuga cane.",
     },

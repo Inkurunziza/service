@@ -42,7 +42,7 @@ export const adminServices: Service[] = [
     },
     description: {
       fr: "Tri, réponse, suivi et organisation des courriels professionnels.",
-      en: "Sorting, responding, tracking and organizing professional emails.",
+      en: "Sorting, responding to, tracking and organizing professional emails.",
       sw: "Kupanga, kujibu, kufuatilia na kupanga barua pepe za kitaaluma.",
       rn: "Gutunganya, gusubiza, gukurikirana no gutunganya imeyili z'akazi.",
     },
@@ -87,7 +87,7 @@ export const adminServices: Service[] = [
     },
     description: {
       fr: "Rédaction professionnelle de lettres, rapports, CV, contrats, etc.",
-      en: "Professional writing of letters, reports, CVs, contracts, etc.",
+      en: "Professional writing of letters, reports, résumés, contracts, etc.",
       sw: "Uandishi wa kitaaluma wa barua, ripoti, CV, mikataba, n.k.",
       rn: "Kwandika mu buryo bw'umwuga amabariwa, raporo, CV, amasezerano, n'ibindi.",
     },
@@ -101,7 +101,7 @@ export const adminServices: Service[] = [
       rn: "Imigenderanire n'abakiriya",
     },
     description: {
-      fr: "Réponses aux appels, gestion des demandes et suivi clientèle.",
+      fr: "Réponses aux appels, gestion des demandes et suivi de la clientèle.",
       en: "Answering calls, managing requests and customer follow-up.",
       sw: "Kujibu simu, kusimamia maombi na kufuatilia wateja.",
       rn: "Gusubiza amatelefone, gucungera ibisabwa no gukurikirana abakiriya.",
@@ -131,7 +131,7 @@ export const adminServices: Service[] = [
       rn: "Gusohora no kohereza",
     },
     description: {
-      fr: "Services d'impression, de numérisation et d'envoi par fax.",
+      fr: "Services d'impression, de numérisation et d'envoi par télécopieur.",
       en: "Printing, scanning and faxing services.",
       sw: "Huduma za uchapishaji, kutazama na kutuma faksi.",
       rn: "Ibikorwa vyo gusohora, gusikana no kohereza.",
@@ -140,7 +140,7 @@ export const adminServices: Service[] = [
   {
     icon: Printer,
     title: {
-      fr: "Lamination",
+      fr: "Plastification",
       en: "Lamination",
       sw: "Lamination",
       rn: "Lamination",
@@ -165,7 +165,7 @@ export const travelServices: Service[] = [
     },
     description: {
       fr: "Recherche des meilleures offres, comparaison des tarifs, réservation et émission de billets selon vos préférences de dates, compagnies et budget.",
-      en: "Finding the best deals, comparing rates, booking and issuing tickets according to your preferences for dates, companies and budget.",
+      en: "Finding the best deals, comparing rates, booking and issuing tickets according to your preferences for dates, airlines and budget.",
       sw: "Kutafuta ofa bora zaidi, kulinganisha viwango, kuhifadhi na kutoa tiketi kulingana na mapendeleo yako ya tarehe, kampuni na bajeti.",
       rn: "Gushakisha ibiciro vyiza, kugereranya ibiciro, kwihitira no gutanga amatike hakurikijwe ivyo wifuza ku matariki, ibigo n'uburyo bwawe.",
     },
@@ -225,7 +225,7 @@ export const travelServices: Service[] = [
     },
     description: {
       fr: "Accompagnement pour faciliter votre installation: transport depuis l'aéroport, remise des clés, présentation des lieux et informations pratiques.",
-      en: "Support to facilitate your installation: transportation from the airport, key handover, presentation of the premises and practical information.",
+      en: "Support to facilitate your settlement: transportation from the airport, key handover, presentation of the premises and practical information.",
       sw: "Msaada wa kurahisisha ufungaji wako: usafiri kutoka uwanja wa ndege, kukabidhi funguo, uwasilishaji wa majengo na taarifa za vitendo.",
       rn: "Gufasha mu kwimuka kwawe: gutwara uvuye ku kibuga c'indege, gutanga imfunguruzo, kwereka ahantu n'amakuru y'akamaro.",
     },
@@ -338,8 +338,8 @@ export const travelServices: Service[] = [
   {
     icon: Package,
     title: {
-      fr: "Packs installation rapide",
-      en: "Quick Installation Packs",
+      fr: "Trousses d'installation rapide",
+      en: "Quick Settlement Kits",
       sw: "Vifurushi vya Ufungaji wa Haraka",
       rn: "Ibipaki vyo kwimuka ningoga",
     },
