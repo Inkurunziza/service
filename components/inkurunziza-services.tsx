@@ -5,35 +5,15 @@ import type React from "react"
 import { useState, useEffect, useRef } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import {
-  Mail,
-  FileText,
-  Printer,
-  ClipboardList,
-  PhoneCall,
-  Menu,
-  X,
-  Plane,
-  Building,
-  Map,
-  Headphones,
-  Home,
-  Users,
-  FileCheck,
-  Flag,
-  FileQuestion,
-  ShieldCheck,
-  CheckCircle,
-  AlertCircle,
-  Loader2,
-  Car,
-  Smartphone,
-  Package,
-} from "lucide-react"
+import { Mail, Menu, X, CheckCircle, AlertCircle, Loader2 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { sendEmail } from "@/app/actions/send-email"
 import Image from "next/image"
 import BackgroundPattern from "./background-pattern"
+import LanguageSelector from "./language-selector"
+import { useLanguage } from "@/contexts/language-context"
+import { adminServices, travelServices } from "@/data/services"
+import { testimonials } from "@/data/testimonials"
 
 const AnimatedTitle = () => {
   const inkurunziza = "Inkurunziza"
@@ -77,151 +57,8 @@ const AnimatedTitle = () => {
   )
 }
 
-const services = [
-  {
-    icon: Mail,
-    title: "Gestion des courriels",
-    description: "Tri, réponse, suivi et organisation des courriels professionnels.",
-  },
-  {
-    icon: FileText,
-    title: "Facturation",
-    description: "Création, envoi et suivi des factures clients et fournisseurs.",
-  },
-  {
-    icon: ClipboardList,
-    title: "Saisie de données",
-    description: "Entrée, mise à jour et gestion des bases de données et tableurs.",
-  },
-  {
-    icon: FileText,
-    title: "Rédaction de documents",
-    description: "Rédaction professionnelle de lettres, rapports, CV, contrats, etc.",
-  },
-  {
-    icon: PhoneCall,
-    title: "Relation client",
-    description: "Réponses aux appels, gestion des demandes et suivi clientèle.",
-  },
-  {
-    icon: ClipboardList,
-    title: "Complétion de formulaires",
-    description: "Remplissage de formulaires administratifs, en ligne ou papier.",
-  },
-  {
-    icon: Printer,
-    title: "Impression et télécopie",
-    description: "Services d'impression, de numérisation et d'envoi par fax.",
-  },
-  {
-    icon: Printer,
-    title: "Lamination",
-    description: "Plastification de documents pour une conservation durable.",
-  },
-]
-
-// Nouveaux services de voyage
-const travelServices = [
-  {
-    icon: Plane,
-    title: "Réservation de billets d'avion",
-    description:
-      "Recherche des meilleures offres, comparaison des tarifs, réservation et émission de billets selon vos préférences de dates, compagnies et budget.",
-  },
-  {
-    icon: Building,
-    title: "Réservation d'hôtels et hébergements",
-    description:
-      "Sélection et réservation d'hébergements adaptés à vos besoins: hôtels, appartements, maisons d'hôtes ou locations saisonnières.",
-  },
-  {
-    icon: Map,
-    title: "Vente de services touristiques",
-    description:
-      "Proposition et réservation d'excursions, visites guidées, transferts aéroport et autres prestations touristiques pour enrichir votre séjour.",
-  },
-  {
-    icon: Headphones,
-    title: "Assistance voyages",
-    description:
-      "Support avant, pendant et après votre voyage pour toute question, modification ou problème rencontré lors de vos déplacements.",
-  },
-  {
-    icon: Home,
-    title: "Assistance installation-arrivée",
-    description:
-      "Accompagnement pour faciliter votre installation: transport depuis l'aéroport, remise des clés, présentation des lieux et informations pratiques.",
-  },
-  {
-    icon: Users,
-    title: "Organisation de voyages de groupes",
-    description:
-      "Planification complète de voyages pour groupes: transport, hébergement, activités, restauration et coordination logistique.",
-  },
-  {
-    icon: FileCheck,
-    title: "Remplir une AVE (Canada)",
-    description:
-      "Assistance pour compléter correctement votre demande d'Autorisation de Voyage Électronique pour le Canada, vérification des informations et suivi.",
-  },
-  {
-    icon: Flag,
-    title: "Aider pour l'ESTA (USA)",
-    description:
-      "Accompagnement dans la procédure de demande d'autorisation ESTA pour les États-Unis, conseils et vérification du formulaire.",
-  },
-  {
-    icon: FileQuestion,
-    title: "Conseiller sur documents de voyage",
-    description:
-      "Information sur les documents nécessaires selon votre destination: passeport, visa, vaccins, assurances et autres exigences spécifiques.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Aider pour réservation d'assurance",
-    description:
-      "Conseil et assistance pour choisir et souscrire une assurance voyage adaptée: santé, annulation, bagages et responsabilité civile.",
-  },
-  {
-    icon: Car,
-    title: "Transport depuis l'aéroport",
-    description:
-      "Organisation de votre transfert depuis l'aéroport jusqu'à votre lieu d'hébergement, avec un chauffeur fiable qui vous attendra à votre arrivée.",
-  },
-  {
-    icon: Smartphone,
-    title: "Cartes SIM locales",
-    description:
-      "Fourniture de cartes SIM canadiennes ou américaines prêtes à l'emploi avec forfaits adaptés à vos besoins pour rester connecté dès votre arrivée.",
-  },
-  {
-    icon: Package,
-    title: "Packs installation rapide",
-    description:
-      "Guides personnalisés avec adresses utiles, assistance pour l'ouverture de compte bancaire, informations sur les transports locaux et services essentiels.",
-  },
-]
-
-const testimonials = [
-  {
-    name: "Sarah B.",
-    role: "Coach indépendante",
-    message:
-      "Grâce à Inkurunziza Services, je gagne plusieurs heures par semaine. Un service rapide, humain et très professionnel.",
-  },
-  {
-    name: "Jean-Marc T.",
-    role: "Propriétaire d'un commerce local",
-    message: "Leur soutien administratif est essentiel pour ma boutique. Je peux enfin me concentrer sur mes clients.",
-  },
-  {
-    name: "Amélie D.",
-    role: "Travailleuse autonome",
-    message: "J'ai fait appel à eux pour un projet ponctuel, maintenant je ne peux plus m'en passer !",
-  },
-]
-
 export default function InkurunzizaServices() {
+  const { t, language } = useLanguage()
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const [openTravelIndex, setOpenTravelIndex] = useState<number | null>(null)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -286,7 +123,7 @@ export default function InkurunzizaServices() {
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setFormStatus({ status: "submitting", message: "Envoi en cours..." })
+    setFormStatus({ status: "submitting", message: t("sending") })
 
     try {
       const formData = new FormData(e.currentTarget)
@@ -305,8 +142,7 @@ export default function InkurunzizaServices() {
       console.error("Erreur lors de la soumission:", error)
       setFormStatus({
         status: "error",
-        message:
-          "Une erreur est survenue. Veuillez essayer d'envoyer un email directement à augustin.admin@inkurunziza.ca",
+        message: t("errorForm"),
       })
     }
 
@@ -341,36 +177,42 @@ export default function InkurunzizaServices() {
                 rel="stylesheet"
               />
               <AnimatedTitle />
-              <p className="text-xs text-gray-600 hidden md:block">Votre partenaire en services divers</p>
+              <p className="text-xs text-gray-600 hidden md:block">{t("yourPartner")}</p>
             </div>
           </div>
 
           {/* Mobile Menu Button */}
-          <button
-            className="md:hidden absolute top-2 right-4 p-2 text-gray-700 hover:text-blue-600 focus:outline-none"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            {menuOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
+          <div className="md:hidden absolute top-2 right-4 flex items-center gap-1">
+            <LanguageSelector />
+            <button
+              className="p-2 text-gray-700 hover:text-blue-600 focus:outline-none"
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              {menuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
 
           {/* Desktop Menu */}
-          <nav className="hidden md:flex gap-4 text-blue-600 font-medium text-sm">
-            <a href="#about" className="hover:underline">
-              À propos
-            </a>
-            <a href="#services" className="hover:underline">
-              Labo administratif
-            </a>
-            <a href="#travel" className="hover:underline">
-              Labo voyage
-            </a>
-            <a href="#reservation" className="hover:underline">
-              Réservation
-            </a>
-            <a href="#testimonials" className="hover:underline">
-              Témoignages
-            </a>
-          </nav>
+          <div className="hidden md:flex items-center gap-2">
+            <nav className="flex gap-4 text-blue-600 font-medium text-sm">
+              <a href="#about" className="hover:underline">
+                {t("about")}
+              </a>
+              <a href="#services" className="hover:underline">
+                {t("adminLab")}
+              </a>
+              <a href="#travel" className="hover:underline">
+                {t("travelLab")}
+              </a>
+              <a href="#reservation" className="hover:underline">
+                {t("reservation")}
+              </a>
+              <a href="#testimonials" className="hover:underline">
+                {t("testimonials")}
+              </a>
+            </nav>
+            <LanguageSelector />
+          </div>
 
           {/* Mobile Menu */}
           <AnimatePresence>
@@ -383,19 +225,19 @@ export default function InkurunzizaServices() {
                 transition={{ duration: 0.3 }}
               >
                 <a href="#about" className="hover:underline py-1" onClick={() => setMenuOpen(false)}>
-                  À propos
+                  {t("about")}
                 </a>
                 <a href="#services" className="hover:underline py-1" onClick={() => setMenuOpen(false)}>
-                  Labo administratif
+                  {t("adminLab")}
                 </a>
                 <a href="#travel" className="hover:underline py-1" onClick={() => setMenuOpen(false)}>
-                  Labo voyage
+                  {t("travelLab")}
                 </a>
                 <a href="#reservation" className="hover:underline py-1" onClick={() => setMenuOpen(false)}>
-                  Réservation
+                  {t("reservation")}
                 </a>
                 <a href="#testimonials" className="hover:underline py-1" onClick={() => setMenuOpen(false)}>
-                  Témoignages
+                  {t("testimonials")}
                 </a>
               </motion.nav>
             )}
@@ -415,37 +257,31 @@ export default function InkurunzizaServices() {
             backgroundColor: "#0f172a", // bleu nuit profond (twilight navy)
           }}
         >
-          <h2 className="text-xl md:text-2xl font-semibold text-blue-500 mb-2">À propos de nous</h2>
-          <p className="text-gray-200 text-sm md:text-base">
-            Inkurunziza Services est une entreprise dédiée à alléger la charge administrative des particuliers, des
-            entrepreneurs, travailleurs autonomes et petites entreprises. Avec rigueur, confidentialité et efficacité,
-            nous vous accompagnons au quotidien dans vos démarches et tâches administratives. Nous offrons également des
-            services spécialisés pour les voyageurs du monde entier à destination du Canada et des États-Unis,
-            facilitant leurs démarches administratives et leur séjour.
-          </p>
+          <h2 className="text-xl md:text-2xl font-semibold text-blue-500 mb-2">{t("aboutUs")}</h2>
+          <p className="text-gray-200 text-sm md:text-base">{t("aboutDescription")}</p>
         </section>
 
         {/* Services Section - Reduced size */}
         <section id="services" className="mt-12 text-center p-4 rounded-xl shadow-sm bg-white/80 backdrop-blur-sm">
-          <h2 className="text-xl md:text-2xl font-bold text-blue-700 mb-4">Labo administratif</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-blue-700 mb-4">{t("adminLabTitle")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-            {services.map((service, index) => (
+            {adminServices.map((service, index) => (
               <motion.div key={index} whileHover={{ scale: 1.03 }} className="w-full">
                 <Card
                   className={`rounded-xl shadow-sm p-3 text-center hover:shadow transition cursor-pointer ${
-                    service.title.includes("courriels")
+                    service.title.fr.includes("courriels")
                       ? "bg-sky-100"
-                      : service.title.includes("Facturation")
+                      : service.title.fr.includes("Facturation")
                         ? "bg-green-100"
-                        : service.title.includes("Saisie")
+                        : service.title.fr.includes("Saisie")
                           ? "bg-orange-100"
-                          : service.title.includes("Rédaction")
+                          : service.title.fr.includes("Rédaction")
                             ? "bg-yellow-100"
-                            : service.title.includes("Relation")
+                            : service.title.fr.includes("Relation")
                               ? "bg-indigo-100"
-                              : service.title.includes("formulaires")
+                              : service.title.fr.includes("formulaires")
                                 ? "bg-teal-100"
-                                : service.title.includes("Impression")
+                                : service.title.fr.includes("Impression")
                                   ? "bg-red-100"
                                   : "bg-purple-100"
                   }`}
@@ -453,7 +289,7 @@ export default function InkurunzizaServices() {
                 >
                   <CardContent className="p-0 pt-3">
                     <service.icon className="mx-auto mb-2 text-blue-600" size={28} />
-                    <h3 className="text-base font-semibold mb-1">{service.title}</h3>
+                    <h3 className="text-base font-semibold mb-1">{service.title[language]}</h3>
                     <AnimatePresence>
                       {openIndex === index && (
                         <motion.p
@@ -463,7 +299,7 @@ export default function InkurunzizaServices() {
                           exit={{ opacity: 0, height: 0 }}
                           transition={{ duration: 0.3 }}
                         >
-                          {service.description}
+                          {service.description[language]}
                         </motion.p>
                       )}
                     </AnimatePresence>
@@ -476,29 +312,29 @@ export default function InkurunzizaServices() {
 
         {/* Travel Lab Section - New section */}
         <section id="travel" className="mt-12 text-center p-4 rounded-xl shadow-sm bg-blue-50/80 backdrop-blur-sm">
-          <h2 className="text-xl md:text-2xl font-bold text-blue-700 mb-4">Labo voyage</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-blue-700 mb-4">{t("travelLabTitle")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
             {travelServices.map((service, index) => (
               <motion.div key={index} whileHover={{ scale: 1.03 }} className="w-full">
                 <Card
                   className={`rounded-xl shadow-sm p-3 text-center hover:shadow transition cursor-pointer ${
-                    service.title.includes("billets")
+                    service.title.fr.includes("billets")
                       ? "bg-blue-50"
-                      : service.title.includes("hôtels")
+                      : service.title.fr.includes("hôtels")
                         ? "bg-indigo-50"
-                        : service.title.includes("touristiques")
+                        : service.title.fr.includes("touristiques")
                           ? "bg-emerald-50"
-                          : service.title.includes("Assistance voyages")
+                          : service.title.fr.includes("Assistance voyages")
                             ? "bg-cyan-50"
-                            : service.title.includes("installation")
+                            : service.title.fr.includes("installation")
                               ? "bg-teal-50"
-                              : service.title.includes("groupes")
+                              : service.title.fr.includes("groupes")
                                 ? "bg-violet-50"
-                                : service.title.includes("AVE")
+                                : service.title.fr.includes("AVE")
                                   ? "bg-red-50"
-                                  : service.title.includes("ESTA")
+                                  : service.title.fr.includes("ESTA")
                                     ? "bg-blue-50"
-                                    : service.title.includes("documents")
+                                    : service.title.fr.includes("documents")
                                       ? "bg-amber-50"
                                       : "bg-lime-50"
                   }`}
@@ -506,7 +342,7 @@ export default function InkurunzizaServices() {
                 >
                   <CardContent className="p-0 pt-3">
                     <service.icon className="mx-auto mb-2 text-blue-600" size={28} />
-                    <h3 className="text-base font-semibold mb-1">{service.title}</h3>
+                    <h3 className="text-base font-semibold mb-1">{service.title[language]}</h3>
                     <AnimatePresence>
                       {openTravelIndex === index && (
                         <motion.p
@@ -516,7 +352,7 @@ export default function InkurunzizaServices() {
                           exit={{ opacity: 0, height: 0 }}
                           transition={{ duration: 0.3 }}
                         >
-                          {service.description}
+                          {service.description[language]}
                         </motion.p>
                       )}
                     </AnimatePresence>
@@ -529,28 +365,28 @@ export default function InkurunzizaServices() {
 
         {/* Reservation Section - Reduced size */}
         <section id="reservation" className="mt-12 max-w-xl mx-auto bg-white bg-opacity-90 p-4 rounded-xl shadow-sm">
-          <h2 className="text-xl md:text-2xl font-bold text-blue-700 mb-3 text-center">Réservez un service</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-blue-700 mb-3 text-center">{t("bookService")}</h2>
 
           {/* Formulaire avec feedback */}
           <form ref={formRef} className="grid gap-3" onSubmit={handleFormSubmit}>
             <input
               type="text"
               name="name"
-              placeholder="Nom complet"
+              placeholder={t("fullName")}
               className="p-2 text-sm rounded-lg border border-gray-300"
               required
             />
             <input
               type="email"
               name="email"
-              placeholder="Adresse courriel"
+              placeholder={t("email")}
               className="p-2 text-sm rounded-lg border border-gray-300"
               required
             />
             <input
               type="tel"
               name="phone"
-              placeholder="Téléphone (facultatif)"
+              placeholder={t("phone")}
               className="p-2 text-sm rounded-lg border border-gray-300"
             />
             <div className="grid grid-cols-2 gap-3">
@@ -558,33 +394,31 @@ export default function InkurunzizaServices() {
               <input type="time" name="time" className="p-2 text-sm rounded-lg border border-gray-300" required />
             </div>
             <select name="service" className="p-2 text-sm rounded-lg border border-gray-300" required>
-              <option value="">-- Sélectionnez un service --</option>
-              <optgroup label="Services administratifs">
-                {services.map((service, index) => (
-                  <option key={`admin-${index}`} value={service.title}>
-                    {service.title}
+              <option value="">{t("selectService")}</option>
+              <optgroup label={t("adminServices")}>
+                {adminServices.map((service, index) => (
+                  <option key={`admin-${index}`} value={service.title[language]}>
+                    {service.title[language]}
                   </option>
                 ))}
               </optgroup>
-              <optgroup label="Services de voyage">
+              <optgroup label={t("travelServices")}>
                 {travelServices.map((service, index) => (
-                  <option key={`travel-${index}`} value={service.title}>
-                    {service.title}
+                  <option key={`travel-${index}`} value={service.title[language]}>
+                    {service.title[language]}
                   </option>
                 ))}
               </optgroup>
             </select>
             <textarea
               name="details"
-              placeholder="Détails supplémentaires (facultatif)"
+              placeholder={t("additionalDetails")}
               rows={3}
               className="p-2 text-sm rounded-lg border border-gray-300"
             />
 
             {/* Information sur le destinataire */}
-            <div className="text-xs text-gray-500 italic">
-              Votre demande sera envoyée à: augustin.admin@inkurunziza.ca
-            </div>
+            <div className="text-xs text-gray-500 italic">{t("requestWillBeSent")}</div>
 
             {/* Bouton de soumission avec états */}
             <Button
@@ -595,10 +429,10 @@ export default function InkurunzizaServices() {
               {formStatus.status === "submitting" ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Envoi en cours...
+                  {t("sending")}
                 </>
               ) : (
-                "Envoyer la demande"
+                t("sendRequest")
               )}
             </Button>
 
@@ -624,15 +458,13 @@ export default function InkurunzizaServices() {
           {/* Solution de secours - lien mailto */}
           {formStatus.status === "error" && (
             <div className="mt-4 text-center">
-              <p className="text-sm text-gray-600 mb-2">
-                Si le formulaire ne fonctionne pas, vous pouvez nous contacter directement par email :
-              </p>
+              <p className="text-sm text-gray-600 mb-2">{t("formNotWorking")}</p>
               <a
                 href={`mailto:augustin.admin@inkurunziza.ca?subject=Réservation de service&body=Nom: %0D%0AService souhaité: %0D%0ADate et heure: %0D%0ADétails: %0D%0A`}
                 className="inline-flex items-center justify-center bg-amber-500 hover:bg-amber-600 text-white py-2 px-4 rounded-lg text-sm transition-colors"
               >
                 <Mail className="mr-2 h-4 w-4" />
-                Envoyer un email directement
+                {t("sendEmailDirectly")}
               </a>
             </div>
           )}
@@ -640,14 +472,14 @@ export default function InkurunzizaServices() {
 
         {/* Testimonials Section - Reduced size */}
         <section id="testimonials" className="mt-12 max-w-4xl mx-auto bg-white bg-opacity-90 p-4 rounded-xl shadow-sm">
-          <h2 className="text-xl md:text-2xl font-bold text-blue-700 text-center mb-3">Témoignages clients</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-blue-700 text-center mb-3">{t("testimonialsTitle")}</h2>
           <div className="grid gap-3 md:grid-cols-3">
             {testimonials.map((t, i) => (
               <Card key={i} className="p-3 rounded-lg bg-gray-50 shadow-sm border border-gray-200">
                 <CardContent className="p-0">
-                  <p className="italic text-gray-700 text-xs mb-2">"{t.message}"</p>
+                  <p className="italic text-gray-700 text-xs mb-2">"{t.message[language]}"</p>
                   <p className="font-semibold text-blue-700 text-sm">{t.name}</p>
-                  <p className="text-xs text-gray-500">{t.role}</p>
+                  <p className="text-xs text-gray-500">{t.role[language]}</p>
                 </CardContent>
               </Card>
             ))}
@@ -661,7 +493,9 @@ export default function InkurunzizaServices() {
             <Image src="/logo-inkurunziza.png" alt="Inkurunziza Services Logo" fill className="object-contain" />
           </div>
         </div>
-        <p className="text-xs">&copy; {new Date().getFullYear()} Inkurunziza Services. Tous droits réservés.</p>
+        <p className="text-xs">
+          &copy; {new Date().getFullYear()} Inkurunziza Services. {t("allRightsReserved")}
+        </p>
         <p className="text-xs mt-1">
           <a href="mailto:augustin.admin@inkurunziza.ca" className="text-blue-600 hover:underline">
             augustin.admin@inkurunziza.ca
