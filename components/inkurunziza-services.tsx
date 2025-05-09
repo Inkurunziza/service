@@ -5,15 +5,16 @@ import type React from "react"
 import { useState, useEffect, useRef } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Mail, Menu, X, CheckCircle, AlertCircle, Loader2 } from "lucide-react"
+import { Mail, Menu, CheckCircle, AlertCircle, Loader2 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { sendEmail } from "@/app/actions/send-email"
 import Image from "next/image"
 import BackgroundPattern from "./background-pattern"
 import LanguageSelector from "./language-selector"
 import { useLanguage } from "@/contexts/language-context"
-import { adminServices, travelServices } from "@/data/services"
+import { adminServices, travelServices, cleaningServices } from "@/data/services"
 import { testimonials } from "@/data/testimonials"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
 const AnimatedTitle = () => {
   const inkurunziza = "Inkurunziza"
@@ -61,7 +62,7 @@ export default function InkurunzizaServices() {
   const { t, language } = useLanguage()
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const [openTravelIndex, setOpenTravelIndex] = useState<number | null>(null)
-  const [menuOpen, setMenuOpen] = useState(false)
+  const [openCleaningIndex, setOpenCleaningIndex] = useState<number | null>(null)
   const [scrolled, setScrolled] = useState(false)
   const [hidden, setHidden] = useState(false)
   const [lastScrollY, setLastScrollY] = useState(0)
@@ -119,6 +120,10 @@ export default function InkurunzizaServices() {
 
   const toggleTravelDescription = (index: number) => {
     setOpenTravelIndex(openTravelIndex === index ? null : index)
+  }
+
+  const toggleCleaningDescription = (index: number) => {
+    setOpenCleaningIndex(openCleaningIndex === index ? null : index)
   }
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -181,67 +186,50 @@ export default function InkurunzizaServices() {
             </div>
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden absolute top-2 right-4 flex items-center gap-1">
+          {/* Navigation Menu - Both Mobile and Desktop */}
+          <div className="flex items-center gap-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="flex items-center gap-1 text-blue-600 hover:text-blue-800">
+                  <Menu className="h-5 w-5" />
+                  <span className="ml-1 hidden md:inline">Menu</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem asChild>
+                  <a href="#about" className="w-full text-blue-600 hover:text-blue-800 font-medium">
+                    {t("about")}
+                  </a>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <a href="#services" className="w-full text-blue-600 hover:text-blue-800 font-medium">
+                    {t("adminSection")}
+                  </a>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <a href="#travel" className="w-full text-blue-600 hover:text-blue-800 font-medium">
+                    {t("travelSection")}
+                  </a>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <a href="#cleaning" className="w-full text-blue-600 hover:text-blue-800 font-medium">
+                    {t("cleaningSection")}
+                  </a>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <a href="#reservation" className="w-full text-blue-600 hover:text-blue-800 font-medium">
+                    {t("reservation")}
+                  </a>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <a href="#testimonials" className="w-full text-blue-600 hover:text-blue-800 font-medium">
+                    {t("testimonials")}
+                  </a>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <LanguageSelector />
-            <button
-              className="p-2 text-gray-700 hover:text-blue-600 focus:outline-none"
-              onClick={() => setMenuOpen(!menuOpen)}
-            >
-              {menuOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
           </div>
-
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-2">
-            <nav className="flex gap-4 text-blue-600 font-medium text-sm">
-              <a href="#about" className="hover:underline">
-                {t("about")}
-              </a>
-              <a href="#services" className="hover:underline">
-                {t("adminLab")}
-              </a>
-              <a href="#travel" className="hover:underline">
-                {t("travelLab")}
-              </a>
-              <a href="#reservation" className="hover:underline">
-                {t("reservation")}
-              </a>
-              <a href="#testimonials" className="hover:underline">
-                {t("testimonials")}
-              </a>
-            </nav>
-            <LanguageSelector />
-          </div>
-
-          {/* Mobile Menu */}
-          <AnimatePresence>
-            {menuOpen && (
-              <motion.nav
-                className="md:hidden absolute top-full left-0 right-0 bg-white shadow-lg py-2 flex flex-col items-center gap-2 text-blue-600 font-medium text-sm"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-              >
-                <a href="#about" className="hover:underline py-1" onClick={() => setMenuOpen(false)}>
-                  {t("about")}
-                </a>
-                <a href="#services" className="hover:underline py-1" onClick={() => setMenuOpen(false)}>
-                  {t("adminLab")}
-                </a>
-                <a href="#travel" className="hover:underline py-1" onClick={() => setMenuOpen(false)}>
-                  {t("travelLab")}
-                </a>
-                <a href="#reservation" className="hover:underline py-1" onClick={() => setMenuOpen(false)}>
-                  {t("reservation")}
-                </a>
-                <a href="#testimonials" className="hover:underline py-1" onClick={() => setMenuOpen(false)}>
-                  {t("testimonials")}
-                </a>
-              </motion.nav>
-            )}
-          </AnimatePresence>
         </div>
       </header>
 
@@ -263,7 +251,7 @@ export default function InkurunzizaServices() {
 
         {/* Services Section - Reduced size */}
         <section id="services" className="mt-12 text-center p-4 rounded-xl shadow-sm bg-white/80 backdrop-blur-sm">
-          <h2 className="text-xl md:text-2xl font-bold text-blue-700 mb-4">{t("adminLabTitle")}</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-blue-700 mb-4">{t("adminSectionTitle")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
             {adminServices.map((service, index) => (
               <motion.div key={index} whileHover={{ scale: 1.03 }} className="w-full">
@@ -310,9 +298,9 @@ export default function InkurunzizaServices() {
           </div>
         </section>
 
-        {/* Travel Lab Section - New section */}
+        {/* Travel Section */}
         <section id="travel" className="mt-12 text-center p-4 rounded-xl shadow-sm bg-blue-50/80 backdrop-blur-sm">
-          <h2 className="text-xl md:text-2xl font-bold text-blue-700 mb-4">{t("travelLabTitle")}</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-blue-700 mb-4">{t("travelSectionTitle")}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
             {travelServices.map((service, index) => (
               <motion.div key={index} whileHover={{ scale: 1.03 }} className="w-full">
@@ -345,6 +333,55 @@ export default function InkurunzizaServices() {
                     <h3 className="text-base font-semibold mb-1">{service.title[language]}</h3>
                     <AnimatePresence>
                       {openTravelIndex === index && (
+                        <motion.p
+                          className="text-gray-600 text-xs mt-1"
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          {service.description[language]}
+                        </motion.p>
+                      )}
+                    </AnimatePresence>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* Cleaning Section - New section */}
+        <section id="cleaning" className="mt-12 text-center p-4 rounded-xl shadow-sm bg-green-50/80 backdrop-blur-sm">
+          <h2 className="text-xl md:text-2xl font-bold text-green-700 mb-4">{t("cleaningSectionTitle")}</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            {cleaningServices.map((service, index) => (
+              <motion.div key={index} whileHover={{ scale: 1.03 }} className="w-full">
+                <Card
+                  className={`rounded-xl shadow-sm p-3 text-center hover:shadow transition cursor-pointer ${
+                    service.title.fr.includes("général")
+                      ? "bg-green-100"
+                      : service.title.fr.includes("cuisine")
+                        ? "bg-yellow-100"
+                        : service.title.fr.includes("déchets")
+                          ? "bg-gray-100"
+                          : service.title.fr.includes("chambres")
+                            ? "bg-indigo-100"
+                            : service.title.fr.includes("planchers")
+                              ? "bg-amber-100"
+                              : service.title.fr.includes("Lessive")
+                                ? "bg-blue-100"
+                                : service.title.fr.includes("Courses")
+                                  ? "bg-orange-100"
+                                  : "bg-emerald-100"
+                  }`}
+                  onClick={() => toggleCleaningDescription(index)}
+                >
+                  <CardContent className="p-0 pt-3">
+                    <service.icon className="mx-auto mb-2 text-green-600" size={28} />
+                    <h3 className="text-base font-semibold mb-1">{service.title[language]}</h3>
+                    <AnimatePresence>
+                      {openCleaningIndex === index && (
                         <motion.p
                           className="text-gray-600 text-xs mt-1"
                           initial={{ opacity: 0, height: 0 }}
@@ -405,6 +442,13 @@ export default function InkurunzizaServices() {
               <optgroup label={t("travelServices")}>
                 {travelServices.map((service, index) => (
                   <option key={`travel-${index}`} value={service.title[language]}>
+                    {service.title[language]}
+                  </option>
+                ))}
+              </optgroup>
+              <optgroup label={t("cleaningServices")}>
+                {cleaningServices.map((service, index) => (
+                  <option key={`cleaning-${index}`} value={service.title[language]}>
                     {service.title[language]}
                   </option>
                 ))}
