@@ -2,6 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
+import { LanguageProvider } from "@/context/language-context"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -22,7 +23,9 @@ export default function RootLayout({
       <head>
         <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Roboto&display=swap" rel="stylesheet" />
       </head>
-      <body className={`${inter.className} font-roboto`}>{children}</body>
+      <body className={`${inter.className} font-roboto`}>
+        <LanguageProvider>{children}</LanguageProvider>
+      </body>
     </html>
   )
 }
