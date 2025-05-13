@@ -2,29 +2,31 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
-import { LanguageProvider } from "@/context/language-context"
+import { ThemeProvider } from "@/components/theme-provider"
+import { LanguageProvider } from "@/contexts/language-context"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Invitation au mariage de Christopher Edison et Devother Fidelis",
-  description:
-    "Invitation au mariage de Christopher Edison et Devother Fidelis. Rejoignez-nous pour célébrer ce moment spécial à Dar es Salaam !",
+  title: "Inkurunziza Services",
+  description: "Services divers professionnels",
     generator: 'v0.dev'
 }
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode
-}) {
+}>) {
   return (
-    <html lang="fr" suppressHydrationWarning>
+    <html lang="fr" className="scroll-smooth">
       <head>
-        <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Roboto&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet" />
       </head>
-      <body className={`${inter.className} font-roboto`}>
-        <LanguageProvider>{children}</LanguageProvider>
+      <body className={inter.className}>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+          <LanguageProvider>{children}</LanguageProvider>
+        </ThemeProvider>
       </body>
     </html>
   )
